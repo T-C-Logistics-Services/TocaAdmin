@@ -105,7 +105,7 @@ const SidebarMenuCollapsible = ({
               <SidebarMenuSubItem key={subItem.title}>
                 <SidebarMenuSubButton
                   asChild
-                  isActive={checkIsActive(href, subItem)}
+                  isActive={checkIsActive(href, subItem as NavItem)}
                 >
                   <Link to={subItem.url} onClick={() => setOpenMobile(false)}>
                     {subItem.icon && <subItem.icon />}
@@ -152,7 +152,7 @@ const SidebarMenuCollapsedDropdown = ({
             <DropdownMenuItem key={`${sub.title}-${sub.url}`} asChild>
               <Link
                 to={sub.url}
-                className={`${checkIsActive(href, sub) ? 'bg-secondary' : ''}`}
+                className={`${checkIsActive(href, sub as NavItem) ? 'bg-secondary' : ''}`}
               >
                 {sub.icon && <sub.icon />}
                 <span className='max-w-52 text-wrap'>{sub.title}</span>

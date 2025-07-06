@@ -1,9 +1,12 @@
-import { HTMLAttributes, useState } from 'react'
+import { HTMLAttributes, useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from '@tanstack/react-router'
+import { useMutation } from '@tanstack/react-query'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { IconBrandGoogle } from '@tabler/icons-react'
+import { useApiStore } from '@/stores/apiStore'
+import { useAuthStore } from '@/stores/authStore'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,44 +19,47 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
+import { loginOptions } from '../data/queryOptions'
+import { loginSchema } from '../data/schema'
 
 type UserAuthFormProps = HTMLAttributes<HTMLFormElement>
 
-const formSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: 'Please enter your email' })
-    .email({ message: 'Invalid email address' }),
-  password: z
-    .string()
-    .min(1, {
-      message: 'Please enter your password',
-    })
-    .min(7, {
-      message: 'Password must be at least 7 characters long',
-    }),
-})
-
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const {
+    mutateAsync: mutateAsyncLogin,
+    isPending,
+    isSuccess,
+    data,
+  } = useMutation(loginOptions)
+  const { auth } = useAuthStore()
+  const apiStore = useApiStore()
+  const navigate = useNavigate()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    setIsLoading(true)
-    // eslint-disable-next-line no-console
-    console.log(data)
-
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+  async function onSubmit(data: z.infer<typeof loginSchema>) {
+    await mutateAsyncLogin({ data })
   }
+
+  const setAccessToken = auth.setAccessToken
+  const setUser = auth.setUser
+  const setAuthHeader = apiStore.setAuthHeader
+
+  useEffect(() => {
+    if (isSuccess) {
+      setAccessToken(data.token)
+      setUser(data.user)
+      setAuthHeader()
+
+      navigate({ to: '/' })
+    }
+  }, [setAccessToken, setUser, setAuthHeader, isSuccess, data, navigate])
 
   return (
     <Form {...form}>
@@ -94,7 +100,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </FormItem>
           )}
         />
-        <Button className='mt-2' disabled={isLoading}>
+        {/* {error && <p className='text-red-500'>{error}</p>} */}
+        <Button className='mt-2' disabled={isPending}>
           Login
         </Button>
 
@@ -103,13 +110,18 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <span className='w-full border-t' />
           </div>
           <div className='relative flex justify-center text-xs uppercase'>
-            <span className='bg-background text-muted-foreground px-2'>
+            <span className='text-muted-foreground bg-white px-2'>
               Or continue with
             </span>
           </div>
         </div>
 
-        <Button variant='outline' type='button' disabled={isLoading}>
+        <Button
+          variant='outline'
+          type='button'
+          disabled={isPending}
+          className='bg-white'
+        >
           <IconBrandGoogle className='h-4 w-4' /> Google
         </Button>
       </form>

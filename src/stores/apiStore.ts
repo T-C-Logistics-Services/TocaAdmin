@@ -4,10 +4,14 @@ import { create } from 'zustand'
 import { Customer } from '@/features/customers/data/schema'
 import { Driver } from '@/features/drivers/data/schema'
 import { User } from '@/features/users/data/schema'
+import { useAuthStore } from './authStore'
+import { useRoleStore } from './roleStore'
 
 const axios = Axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 })
+
+let authInterceptor: number
 
 export interface Hub {
   id: string
@@ -31,7 +35,23 @@ export interface Pagination {
   totalPages: number
 }
 
+export interface LoginResponse {
+  token: string
+  user: {
+    firstName: string
+    lastName: string
+    email: string
+    sub: string
+    name: string
+    avatar: string
+  }
+}
+
 interface ApiState {
+  login: ({ data }: AxiosRequestConfig) => Promise<LoginResponse>
+  logout: () => Promise<void>
+  setAuthHeader: () => void
+  removeAuthHeader: () => void
   fetchHubs: ({ signal }: AxiosRequestConfig) => Promise<{ hubs: Hub[] }>
   fetchRoles: ({ signal }: AxiosRequestConfig) => Promise<{ roles: Role[] }>
   fetchVehicles: ({
@@ -79,6 +99,27 @@ interface ApiState {
 }
 
 export const useApiStore = create<ApiState>()(() => ({
+  login: async ({ data }) => {
+    const role = useRoleStore.getState().role
+    const response = await axios.post(`/login/${role}`, data)
+    return response.data
+  },
+  logout: async () => {
+    try {
+      await axios.get('/logout')
+    } catch (error) {
+      console.error('Failed to logout:', error)
+    }
+  },
+  setAuthHeader: () => {
+    authInterceptor = axios.interceptors.request.use(function (config) {
+      config.headers.Authorization = `Bearer ${useAuthStore.getState().auth.accessToken}`
+      return config
+    })
+  },
+  removeAuthHeader: () => {
+    axios.interceptors.request.eject(authInterceptor)
+  },
   fetchHubs: async ({ signal }) => {
     try {
       const response = await axios.get('/hubs', { signal })

@@ -26,18 +26,6 @@ export default function ForgotPassword() {
         <CardContent>
           <ForgotPasswordForm />
         </CardContent>
-        <CardFooter>
-          <p className='text-muted-foreground px-8 text-center text-sm'>
-            Don't have an account?{' '}
-            <Link
-              to='/sign-up'
-              className='hover:text-primary underline underline-offset-4'
-            >
-              Sign up
-            </Link>
-            .
-          </p>
-        </CardFooter>
       </Card>
     </AuthLayout>
   )

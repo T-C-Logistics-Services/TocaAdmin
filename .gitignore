@@ -13,6 +13,8 @@ dist-ssr
 *.local
 
 .env
+.tanstack
+.kilocode
 
 # Editor directories and files
 .vscode/*

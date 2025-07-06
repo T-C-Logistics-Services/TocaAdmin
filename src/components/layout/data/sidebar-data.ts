@@ -27,7 +27,7 @@ export const sidebarData: SidebarData = {
         },
         {
           title: 'Monitoring',
-          url: '/',
+          url: '/monitoring',
           icon: IconBrowserCheck,
         },
       ],

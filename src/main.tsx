@@ -37,6 +37,7 @@ const queryClient = new QueryClient({
     mutations: {
       onError: (error) => {
         handleServerError(error)
+        console.log('caglled')
 
         if (error instanceof AxiosError) {
           if (error.response?.status === 304) {
