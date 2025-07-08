@@ -5,7 +5,6 @@ import { Customer } from '@/features/customers/data/schema'
 import { Driver } from '@/features/drivers/data/schema'
 import { User } from '@/features/users/data/schema'
 import { useAuthStore } from './authStore'
-import { useRoleStore } from './roleStore'
 
 const axios = Axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -100,8 +99,7 @@ interface ApiState {
 
 export const useApiStore = create<ApiState>()(() => ({
   login: async ({ data }) => {
-    const role = useRoleStore.getState().role
-    const response = await axios.post(`/login/${role}`, data)
+    const response = await axios.post(`/login/admin`, data)
     return response.data
   },
   logout: async () => {

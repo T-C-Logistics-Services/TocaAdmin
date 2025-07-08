@@ -121,6 +121,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           type='button'
           disabled={isPending}
           className='bg-white'
+          onClick={() => {
+            window.location.href = `${import.meta.env.VITE_API_URL}/google/admin`
+          }}
         >
           <IconBrandGoogle className='h-4 w-4' /> Google
         </Button>

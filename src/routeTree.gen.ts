@@ -18,6 +18,7 @@ import { Route as errors403RouteImport } from './routes/(errors)/403'
 import { Route as errors401RouteImport } from './routes/(errors)/401'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authOtpRouteImport } from './routes/(auth)/otp'
+import { Route as authGoogleRouteImport } from './routes/(auth)/google'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
@@ -79,6 +80,11 @@ const authSignInRoute = authSignInRouteImport.update({
 const authOtpRoute = authOtpRouteImport.update({
   id: '/(auth)/otp',
   path: '/otp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authGoogleRoute = authGoogleRouteImport.update({
+  id: '/(auth)/google',
+  path: '/google',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
@@ -188,6 +194,7 @@ const AuthenticatedSettingsAccountRoute =
 export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
+  '/google': typeof authGoogleRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
   '/401': typeof errors401Route
@@ -215,6 +222,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof authForgotPasswordRoute
+  '/google': typeof authGoogleRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
   '/401': typeof errors401Route
@@ -245,6 +253,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
+  '/(auth)/google': typeof authGoogleRoute
   '/(auth)/otp': typeof authOtpRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(errors)/401': typeof errors401Route
@@ -275,6 +284,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/settings'
     | '/forgot-password'
+    | '/google'
     | '/otp'
     | '/sign-in'
     | '/401'
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/forgot-password'
+    | '/google'
     | '/otp'
     | '/sign-in'
     | '/401'
@@ -331,6 +342,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_authenticated/settings'
     | '/(auth)/forgot-password'
+    | '/(auth)/google'
     | '/(auth)/otp'
     | '/(auth)/sign-in'
     | '/(errors)/401'
@@ -360,6 +372,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   authForgotPasswordRoute: typeof authForgotPasswordRoute
+  authGoogleRoute: typeof authGoogleRoute
   authOtpRoute: typeof authOtpRoute
   authSignInRoute: typeof authSignInRoute
   errors401Route: typeof errors401Route
@@ -432,6 +445,13 @@ declare module '@tanstack/react-router' {
       path: '/otp'
       fullPath: '/otp'
       preLoaderRoute: typeof authOtpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/google': {
+      id: '/(auth)/google'
+      path: '/google'
+      fullPath: '/google'
+      preLoaderRoute: typeof authGoogleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/forgot-password': {
@@ -625,6 +645,7 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   authForgotPasswordRoute: authForgotPasswordRoute,
+  authGoogleRoute: authGoogleRoute,
   authOtpRoute: authOtpRoute,
   authSignInRoute: authSignInRoute,
   errors401Route: errors401Route,
