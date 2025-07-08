@@ -38,7 +38,6 @@ export default function Google() {
         setAuthHeader()
         setIsError(false)
         setTimeout(() => {
-          console.log('called')
           navigate({ to: '/' })
         }, 3000)
         setIsLoading(false)

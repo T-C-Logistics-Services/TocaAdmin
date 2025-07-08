@@ -30,6 +30,8 @@ export const useCustomers = () => {
             shopName: "Alice's Wonderland",
             mainAddress: '789 Pine St, Wonderland, USA',
             secondaryAddress: '101 Elm St, Wonderland, USA',
+            email: '',
+            password: '',
           },
           {
             id: 'CUST-002',
@@ -39,6 +41,8 @@ export const useCustomers = () => {
             shopName: "Bob's Burgers",
             mainAddress: '321 Cedar Ln, Burgerland, USA',
             secondaryAddress: '202 Maple Ave, Burgerland, USA',
+            email: '',
+            password: '',
           },
         ]
         setCustomers(customerData)
