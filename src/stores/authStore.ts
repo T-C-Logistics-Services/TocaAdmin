@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { LoginResponse } from './apiStore'
+import { LoginResponse, useApiStore } from './apiStore'
 
-const ACCESS_TOKEN = 'thisisjustarandomstring'
+const ACCESS_TOKEN = 'toca-cookie'
 
 interface AuthState {
   auth: {
@@ -20,6 +20,9 @@ export const useAuthStore = create<AuthState>()(
   devtools((set) => {
     const cookieState = Cookies.get(ACCESS_TOKEN)
     const initToken = cookieState ? JSON.parse(cookieState) : ''
+    if (initToken) {
+      useApiStore.getState().setAuthHeader()
+    }
     return {
       auth: {
         user: null,
