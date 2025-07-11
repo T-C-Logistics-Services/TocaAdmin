@@ -1,10 +1,14 @@
+import { useEffect } from 'react'
 import Cookies from 'js-cookie'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { Outlet } from '@tanstack/react-router'
+import { useAuthStore } from '@/stores/authStore'
 import { cn } from '@/lib/utils'
 import { SearchProvider } from '@/context/search-context'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/layout/app-sidebar'
 import SkipToMain from '@/components/skip-to-main'
+import { userQueryOptions } from './data/queryOptions'
 
 interface Props {
   children?: React.ReactNode
@@ -12,6 +16,14 @@ interface Props {
 
 export function AuthenticatedLayout({ children }: Props) {
   const defaultOpen = Cookies.get('sidebar_state') !== 'false'
+  const { data: userData, isSuccess } = useSuspenseQuery(userQueryOptions)
+  const { accessToken, user, setUser } = useAuthStore.getState().auth
+
+  useEffect(() => {
+    if (accessToken && !user && isSuccess) {
+      setUser(userData)
+    }
+  }, [setUser, user, userData, isSuccess, accessToken])
   return (
     <SearchProvider>
       <SidebarProvider defaultOpen={defaultOpen}>

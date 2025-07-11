@@ -51,7 +51,9 @@ interface ApiState {
   logout: () => Promise<void>
   setAuthHeader: () => void
   removeAuthHeader: () => void
-  fetchUserDetails: () => Promise<LoginResponse['user']>
+  fetchUserDetails: ({
+    signal,
+  }: AxiosRequestConfig) => Promise<LoginResponse['user']>
   fetchHubs: ({ signal }: AxiosRequestConfig) => Promise<{ hubs: Hub[] }>
   fetchRoles: ({ signal }: AxiosRequestConfig) => Promise<{ roles: Role[] }>
   fetchVehicles: ({
@@ -119,13 +121,9 @@ export const useApiStore = create<ApiState>()(() => ({
   removeAuthHeader: () => {
     axios.interceptors.request.eject(authInterceptor)
   },
-  fetchUserDetails: async () => {
-    try {
-      const response = await axios.get('/user')
-      return response.data
-    } catch (error) {
-      console.error('Failed to logout:', error)
-    }
+  fetchUserDetails: async ({ signal }) => {
+    const response = await axios.get('/user', { signal })
+    return response.data
   },
   fetchHubs: async ({ signal }) => {
     try {
