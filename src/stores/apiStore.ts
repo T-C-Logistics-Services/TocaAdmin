@@ -126,156 +126,81 @@ export const useApiStore = create<ApiState>()(() => ({
     return response.data
   },
   fetchHubs: async ({ signal }) => {
-    try {
-      const response = await axios.get('/hubs', { signal })
-      return response.data
-    } catch (error) {
-      console.error('Failed to fetch hubs:', error)
-      return []
-    }
+    const response = await axios.get('/hubs', { signal })
+    return response.data
   },
   fetchRoles: async ({ signal }) => {
-    try {
-      const response = await axios.get('/roles', { signal })
-      return response.data
-    } catch (error) {
-      console.error('Failed to fetch roles:', error)
-      return []
-    }
+    const response = await axios.get('/roles', { signal })
+    return response.data
   },
   fetchVehicles: async ({ signal }) => {
-    try {
-      const response = await axios.get('/vehicles', { signal })
-      return response.data
-    } catch (error) {
-      console.error('Failed to fetch vehicles:', error)
-      return []
-    }
+    const response = await axios.get('/vehicles', { signal })
+    return response.data
   },
   fetchUsers: async ({ pagination, signal }) => {
-    try {
-      const response = await axios.get('/users', {
-        params: {
-          pageIndex: pagination.pageIndex,
-          pageSize: pagination.pageSize,
-        },
-        signal,
-      })
-      return response.data
-    } catch (error) {
-      console.error('Failed to fetch users:', error)
-      return []
-    }
+    const response = await axios.get('/users', {
+      params: {
+        pageIndex: pagination.pageIndex,
+        pageSize: pagination.pageSize,
+      },
+      signal,
+    })
+    return response.data
   },
   createUser: async ({ data }) => {
-    try {
-      const response = await axios.post('/users', data)
-      return response.data
-    } catch (error) {
-      console.error('Failed to create user:', error)
-      return []
-    }
+    const response = await axios.post('/users', data)
+    return response.data
   },
   updateUser: async ({ id, data }) => {
-    try {
-      const response = await axios.put(`/users/${id}`, data)
-      return response.data
-    } catch (error) {
-      console.error('Failed to update user:', error)
-      return []
-    }
+    const response = await axios.put(`/users/${id}`, data)
+    return response.data
   },
   deleteUser: async ({ id }) => {
-    try {
-      const response = await axios.delete(`/users/${id}`)
-      return response.data
-    } catch (error) {
-      console.error('Failed to delete user:', error)
-      return []
-    }
+    const response = await axios.delete(`/users/${id}`)
+    return response.data
   },
   fetchCustomers: async ({ pagination, signal }) => {
-    try {
-      const response = await axios.get('/customers', {
-        params: {
-          pageIndex: pagination.pageIndex,
-          pageSize: pagination.pageSize,
-        },
-        signal,
-      })
-      return response.data
-    } catch (error) {
-      console.error('Failed to fetch customers:', error)
-      return []
-    }
+    const response = await axios.get('/customers', {
+      params: {
+        pageIndex: pagination.pageIndex,
+        pageSize: pagination.pageSize,
+      },
+      signal,
+    })
+    return response.data
   },
   createCustomer: async ({ data }) => {
-    try {
-      const response = await axios.post('/customers', data)
-      return response.data
-    } catch (error) {
-      console.error('Failed to create customer:', error)
-      return []
-    }
+    const response = await axios.post('/customers', data)
+    return response.data
   },
   updateCustomer: async ({ id, data }) => {
-    try {
-      const response = await axios.put(`/customers/${id}`, data)
-      return response.data
-    } catch (error) {
-      console.error('Failed to update customer:', error)
-      return []
-    }
+    const response = await axios.put(`/customers/${id}`, data)
+    return response.data
   },
   deleteCustomer: async ({ id }) => {
-    try {
-      const response = await axios.delete(`/customers/${id}`)
-      return response.data
-    } catch (error) {
-      console.error('Failed to delete customer:', error)
-      return []
-    }
+    const response = await axios.delete(`/customers/${id}`)
+    return response.data
   },
   fetchDrivers: async ({ pagination, signal }) => {
-    try {
-      const response = await axios.get('/drivers', {
-        params: {
-          pageIndex: pagination.pageIndex,
-          pageSize: pagination.pageSize,
-        },
-        signal,
-      })
-      return response.data
-    } catch (error) {
-      console.error('Failed to fetch drivers:', error)
-      return []
-    }
+    const response = await axios.get('/drivers', {
+      params: {
+        pageIndex: pagination.pageIndex,
+        pageSize: pagination.pageSize,
+      },
+      signal,
+    })
+    return response.data
   },
   createDriver: async ({ data }) => {
-    try {
-      const response = await axios.post('/drivers', data)
-      return response.data
-    } catch (error) {
-      console.error('Failed to create driver:', error)
-      return []
-    }
+    const response = await axios.post('/drivers', data)
+    return response.data
   },
   updateDriver: async ({ id, data }) => {
-    try {
-      const response = await axios.put(`/drivers/${id}`, data)
-      return response.data
-    } catch (error) {
-      console.error('Failed to update driver:', error)
-      return []
-    }
+    const response = await axios.put(`/drivers/${id}`, data)
+    return response.data
   },
   deleteDriver: async ({ id }) => {
-    try {
-      const response = await axios.delete(`/drivers/${id}`)
-      return response.data
-    } catch (error) {
-      console.error('Failed to delete driver:', error)
-      return []
-    }
+    const response = await axios.delete(`/drivers/${id}`)
+    return response.data
   },
 }))

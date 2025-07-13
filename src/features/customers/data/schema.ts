@@ -5,9 +5,9 @@ export const customerSchema = z.object({
   authId: z.number(),
   firstName: z.string(),
   lastName: z.string(),
-  shopName: z.string(),
-  mainAddress: z.string(),
-  secondaryAddress: z.string(),
+  shopName: z.string().nullable(),
+  mainAddress: z.string().nullable(),
+  secondaryAddress: z.string().nullable(),
   email: z.string(),
 })
 export type Customer = z.infer<typeof customerSchema>
