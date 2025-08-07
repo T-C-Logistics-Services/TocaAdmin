@@ -29,9 +29,12 @@ interface Props {
 const formSchema = z.object({
   firstName: z.string().min(1, 'First name is required.'),
   lastName: z.string().min(1, 'Last name is required.'),
-  shopName: z.string().min(1, 'Shop name is required.'),
-  mainAddress: z.string().min(1, 'Main address is required.'),
-  secondaryAddress: z.string().min(1, 'Secondary address is required.'),
+  shopName: z.string().min(1, 'Shop name is required.').nullable(),
+  mainAddress: z.string().min(1, 'Main address is required.').nullable(),
+  secondaryAddress: z
+    .string()
+    .min(1, 'Secondary address is required.')
+    .nullable(),
   email: z.string().email('Invalid email format.'),
   password: z.string().min(6, 'Password must be at least 6 characters.'),
 })

@@ -33,11 +33,14 @@ interface Props {
 const formSchema = z.object({
   firstName: z.string().min(1, 'First name is required.'),
   lastName: z.string().min(1, 'Last name is required.'),
-  address: z.string().min(1, 'Address is required.'),
-  accountNumber: z.coerce.string().min(1, 'Account number is required.'),
-  contactNumber: z.string().min(1, 'Contact number is required.'),
-  hubId: z.coerce.string().min(1, 'Hub ID is required.'),
-  role: z.string().min(1, 'Role is required.'),
+  address: z.string().min(1, 'Address is required.').nullable(),
+  accountNumber: z.coerce
+    .string()
+    .min(1, 'Account number is required.')
+    .nullable(),
+  contactNumber: z.string().min(1, 'Contact number is required.').nullable(),
+  hubId: z.coerce.string().min(1, 'Hub ID is required.').nullable(),
+  role: z.string().min(1, 'Role is required.').nullable(),
   email: z.string().email('Invalid email format.'),
   password: z.string().min(6, 'Password must be at least 6 characters.'),
 })

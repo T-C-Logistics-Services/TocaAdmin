@@ -35,6 +35,7 @@ export function NavUser() {
   useEffect(() => {
     if (isSuccess) {
       reset()
+      useApiStore.getState().removeAuthHeader()
       navigate({ to: '/sign-in' })
     }
   }, [reset, isSuccess, navigate])

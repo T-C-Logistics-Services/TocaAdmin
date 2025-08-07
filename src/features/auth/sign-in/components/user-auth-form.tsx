@@ -55,7 +55,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     if (isSuccess) {
       setAccessToken(data.token)
       setUser(data.user)
-      setAuthHeader()
+      setAuthHeader(data.token)
 
       navigate({ to: '/' })
     }

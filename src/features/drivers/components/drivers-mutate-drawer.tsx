@@ -32,23 +32,28 @@ interface Props {
 const formSchema = z.object({
   firstName: z.string().min(1, 'First name is required.'),
   lastName: z.string().min(1, 'Last name is required.'),
-  age: z.coerce.number().min(1, 'Age is required.'),
-  sex: z.string().min(1, 'Sex is required.'),
-  dateOfBirth: z.string().min(1, 'Date of birth is required.'),
-  address: z.string().min(1, 'Address is required.'),
-  photoUrl: z.string().url().optional().or(z.literal('')),
-  licenseNumber: z.string().min(1, 'License number is required.'),
+  age: z.coerce.number().min(1, 'Age is required.').nullable(),
+  sex: z.string().min(1, 'Sex is required.').nullable(),
+  dateOfBirth: z.string().min(1, 'Date of birth is required.').nullable(),
+  address: z.string().min(1, 'Address is required.').nullable(),
+  photoUrl: z.string().url().optional().or(z.literal('')).nullable(),
+  licenseNumber: z.string().min(1, 'License number is required.').nullable(),
   licenseExpirationDate: z
     .string()
-    .min(1, 'License expiration date is required.'),
-  vehicleId: z.coerce.string().min(1, 'Vehicle ID is required.'),
-  contactNumber: z.string().min(1, 'Contact number is required.'),
-  socialMediaAccount: z.string().optional().or(z.literal('')),
-  contactPerson: z.string().min(1, 'Contact person is required.'),
+    .min(1, 'License expiration date is required.')
+    .nullable(),
+  vehicleId: z.coerce.string().min(1, 'Vehicle ID is required.').nullable(),
+  contactNumber: z.string().min(1, 'Contact number is required.').nullable(),
+  socialMediaAccount: z.string().optional().or(z.literal('')).nullable(),
+  contactPerson: z.string().min(1, 'Contact person is required.').nullable(),
   contactPersonRelationship: z
     .string()
-    .min(1, 'Contact person relationship is required.'),
-  contactPersonNumber: z.string().min(1, 'Contact person number is required.'),
+    .min(1, 'Contact person relationship is required.')
+    .nullable(),
+  contactPersonNumber: z
+    .string()
+    .min(1, 'Contact person number is required.')
+    .nullable(),
   email: z.string().email('Invalid email format.'),
   password: z.string().min(6, 'Password must be at least 6 characters.'),
 })

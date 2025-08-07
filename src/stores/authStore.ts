@@ -3,7 +3,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import { LoginResponse, useApiStore } from './apiStore'
 
-const ACCESS_TOKEN = 'toca-cookie'
+const ACCESS_TOKEN = 'toca-admin-cookie'
 
 interface AuthState {
   auth: {
@@ -21,7 +21,7 @@ export const useAuthStore = create<AuthState>()(
     const cookieState = Cookies.get(ACCESS_TOKEN)
     const initToken = cookieState ? JSON.parse(cookieState) : ''
     if (initToken) {
-      useApiStore.getState().setAuthHeader()
+      useApiStore.getState().setAuthHeader(initToken)
     }
     return {
       auth: {

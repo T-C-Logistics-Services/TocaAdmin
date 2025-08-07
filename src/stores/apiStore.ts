@@ -4,7 +4,6 @@ import { create } from 'zustand'
 import { Customer } from '@/features/customers/data/schema'
 import { Driver } from '@/features/drivers/data/schema'
 import { User } from '@/features/users/data/schema'
-import { useAuthStore } from './authStore'
 
 const axios = Axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -49,7 +48,7 @@ export interface LoginResponse {
 interface ApiState {
   login: ({ data }: AxiosRequestConfig) => Promise<LoginResponse>
   logout: () => Promise<void>
-  setAuthHeader: () => void
+  setAuthHeader: (token: string) => void
   removeAuthHeader: () => void
   fetchUserDetails: ({
     signal,
@@ -112,9 +111,9 @@ export const useApiStore = create<ApiState>()(() => ({
       console.error('Failed to logout:', error)
     }
   },
-  setAuthHeader: () => {
+  setAuthHeader: (token) => {
     authInterceptor = axios.interceptors.request.use(function (config) {
-      config.headers.Authorization = `Bearer ${useAuthStore.getState().auth.accessToken}`
+      config.headers.Authorization = `Bearer ${token}`
       return config
     })
   },

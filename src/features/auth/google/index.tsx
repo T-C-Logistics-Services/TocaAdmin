@@ -35,7 +35,7 @@ export default function Google() {
         }
         setAccessToken(auth.token)
         setUser(auth.user)
-        setAuthHeader()
+        setAuthHeader(auth.token)
         setIsError(false)
         setTimeout(() => {
           navigate({ to: '/' })
