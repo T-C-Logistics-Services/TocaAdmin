@@ -11,36 +11,28 @@ export const vehicleQueryOptions = queryOptions({
   staleTime: 1000 * 60 * 10, // 10 minutes
 })
 
-export const driverQueryOptions = ({
+export const bookingQueryOptions = ({
   pagination,
 }: {
   pagination: PaginationState
 }) =>
   queryOptions({
-    queryKey: ['drivers', pagination],
-    queryFn: ({ signal }) => getState().fetchDrivers({ pagination, signal }),
+    queryKey: ['bookings', pagination],
+    queryFn: ({ signal }) => getState().fetchBookings({ pagination, signal }),
     placeholderData: keepPreviousData,
   })
 
-export const createDriverOptions = {
+export const createBookingOptions = {
   mutationFn: (values: AxiosRequestConfig) =>
-    getState().createDriver({ data: values.data }),
+    getState().createBooking({ data: values.data }),
 }
 
-export const updateDriverOptions = {
+export const updateBookingOptions = {
   mutationFn: (values: AxiosRequestConfig & { id: string }) =>
-    getState().updateDriver({ id: values.id, data: values.data }),
+    getState().updateBooking({ id: values.id, data: values.data }),
 }
 
-export const deleteDriverOptions = {
+export const deleteBookingOptions = {
   mutationFn: (values: { id: string }) =>
-    getState().deleteDriver({ id: values.id }),
-}
-
-export const assignBookingOptions = {
-  mutationFn: (values: { bookingId: string; driverId: string }) =>
-    getState().assignBooking({
-      bookingId: values.bookingId,
-      driverId: values.driverId,
-    }),
+    getState().deleteBooking({ id: values.id }),
 }

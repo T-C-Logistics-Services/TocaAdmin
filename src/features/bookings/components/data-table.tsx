@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
 import {
   ColumnFiltersState,
   PaginationState,
@@ -21,17 +20,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { driverQueryOptions } from '../data/queryOptions'
+import { bookingQueryOptions } from '../data/queryOptions'
 import { columns } from './columns'
-import { columnsAssign } from './columns-assign'
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 
 export function DataTable() {
-  const { bookingId } = useParams({
-    from: '/_authenticated/bookings/$bookingId/driver',
-  })
-
   // const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -43,15 +37,15 @@ export function DataTable() {
     pageIndex: 0,
     pageSize: 2,
   })
-  const driverQuery = useQuery(
-    driverQueryOptions({
+  const bookingQuery = useQuery(
+    bookingQueryOptions({
       pagination,
     })
   )
 
   const table = useReactTable({
-    data: driverQuery.data?.drivers || [],
-    columns: bookingId ? columnsAssign : columns,
+    data: bookingQuery.data?.bookings || [],
+    columns: columns,
     state: {
       sorting,
       columnVisibility,
@@ -69,12 +63,9 @@ export function DataTable() {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onPaginationChange: setPagination,
-    rowCount: driverQuery?.data?.pagination?.total || 0,
+    rowCount: bookingQuery?.data?.pagination?.total || 0,
     manualPagination: true,
   })
-
-  // Log the booking ID for debugging
-  console.log('Booking ID from URL:', bookingId)
 
   return (
     <div className='space-y-4'>

@@ -1,7 +1,6 @@
 import {
   IconBrowserCheck,
   IconLayoutDashboard,
-  IconPackages,
   IconSettings,
   IconUserCog,
   IconUsers,
@@ -36,10 +35,15 @@ export const sidebarData: SidebarData = {
       title: 'Settings',
       items: [
         {
-          title: 'Hub Management',
-          url: '/hub-management',
-          icon: IconPackages,
+          title: 'Booking Management',
+          url: '/bookings',
+          icon: IconBrowserCheck,
         },
+        // {
+        //   title: 'Hub Management',
+        //   url: '/hubs',
+        //   icon: IconPackages,
+        // },
         {
           title: 'Driver Management',
           url: '/drivers',

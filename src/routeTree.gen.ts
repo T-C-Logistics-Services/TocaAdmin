@@ -25,18 +25,20 @@ import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedMonitoringIndexRouteImport } from './routes/_authenticated/monitoring/index'
-import { Route as AuthenticatedHubManagementIndexRouteImport } from './routes/_authenticated/hub-management/index'
+import { Route as AuthenticatedHubsIndexRouteImport } from './routes/_authenticated/hubs/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedFinanceIndexRouteImport } from './routes/_authenticated/finance/index'
 import { Route as AuthenticatedDriversIndexRouteImport } from './routes/_authenticated/drivers/index'
 import { Route as AuthenticatedDeliveryStatisticsIndexRouteImport } from './routes/_authenticated/delivery-statistics/index'
 import { Route as AuthenticatedCustomersIndexRouteImport } from './routes/_authenticated/customers/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
+import { Route as AuthenticatedBookingsIndexRouteImport } from './routes/_authenticated/bookings/index'
 import { Route as AuthenticatedAppsIndexRouteImport } from './routes/_authenticated/apps/index'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedBookingsBookingIdDriverRouteImport } from './routes/_authenticated/bookings/$bookingId/driver'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -120,12 +122,11 @@ const AuthenticatedMonitoringIndexRoute =
     path: '/monitoring/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedHubManagementIndexRoute =
-  AuthenticatedHubManagementIndexRouteImport.update({
-    id: '/hub-management/',
-    path: '/hub-management/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+const AuthenticatedHubsIndexRoute = AuthenticatedHubsIndexRouteImport.update({
+  id: '/hubs/',
+  path: '/hubs/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexRouteImport.update({
     id: '/help-center/',
@@ -161,6 +162,12 @@ const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
   path: '/chats/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedBookingsIndexRoute =
+  AuthenticatedBookingsIndexRouteImport.update({
+    id: '/bookings/',
+    path: '/bookings/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexRouteImport.update({
   id: '/apps/',
   path: '/apps/',
@@ -190,6 +197,12 @@ const AuthenticatedSettingsAccountRoute =
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedBookingsBookingIdDriverRoute =
+  AuthenticatedBookingsBookingIdDriverRouteImport.update({
+    id: '/bookings/$bookingId/driver',
+    path: '/bookings/$bookingId/driver',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
@@ -208,17 +221,19 @@ export interface FileRoutesByFullPath {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
+  '/bookings': typeof AuthenticatedBookingsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/customers': typeof AuthenticatedCustomersIndexRoute
   '/delivery-statistics': typeof AuthenticatedDeliveryStatisticsIndexRoute
   '/drivers': typeof AuthenticatedDriversIndexRoute
   '/finance': typeof AuthenticatedFinanceIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
-  '/hub-management': typeof AuthenticatedHubManagementIndexRoute
+  '/hubs': typeof AuthenticatedHubsIndexRoute
   '/monitoring': typeof AuthenticatedMonitoringIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/bookings/$bookingId/driver': typeof AuthenticatedBookingsBookingIdDriverRoute
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof authForgotPasswordRoute
@@ -236,17 +251,19 @@ export interface FileRoutesByTo {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
+  '/bookings': typeof AuthenticatedBookingsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/customers': typeof AuthenticatedCustomersIndexRoute
   '/delivery-statistics': typeof AuthenticatedDeliveryStatisticsIndexRoute
   '/drivers': typeof AuthenticatedDriversIndexRoute
   '/finance': typeof AuthenticatedFinanceIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
-  '/hub-management': typeof AuthenticatedHubManagementIndexRoute
+  '/hubs': typeof AuthenticatedHubsIndexRoute
   '/monitoring': typeof AuthenticatedMonitoringIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/bookings/$bookingId/driver': typeof AuthenticatedBookingsBookingIdDriverRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -267,17 +284,19 @@ export interface FileRoutesById {
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
+  '/_authenticated/bookings/': typeof AuthenticatedBookingsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/customers/': typeof AuthenticatedCustomersIndexRoute
   '/_authenticated/delivery-statistics/': typeof AuthenticatedDeliveryStatisticsIndexRoute
   '/_authenticated/drivers/': typeof AuthenticatedDriversIndexRoute
   '/_authenticated/finance/': typeof AuthenticatedFinanceIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
-  '/_authenticated/hub-management/': typeof AuthenticatedHubManagementIndexRoute
+  '/_authenticated/hubs/': typeof AuthenticatedHubsIndexRoute
   '/_authenticated/monitoring/': typeof AuthenticatedMonitoringIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/bookings/$bookingId/driver': typeof AuthenticatedBookingsBookingIdDriverRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -298,17 +317,19 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/apps'
+    | '/bookings'
     | '/chats'
     | '/customers'
     | '/delivery-statistics'
     | '/drivers'
     | '/finance'
     | '/help-center'
-    | '/hub-management'
+    | '/hubs'
     | '/monitoring'
     | '/settings/'
     | '/tasks'
     | '/users'
+    | '/bookings/$bookingId/driver'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/forgot-password'
@@ -326,17 +347,19 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/apps'
+    | '/bookings'
     | '/chats'
     | '/customers'
     | '/delivery-statistics'
     | '/drivers'
     | '/finance'
     | '/help-center'
-    | '/hub-management'
+    | '/hubs'
     | '/monitoring'
     | '/settings'
     | '/tasks'
     | '/users'
+    | '/bookings/$bookingId/driver'
   id:
     | '__root__'
     | '/_authenticated'
@@ -356,17 +379,19 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
     | '/_authenticated/apps/'
+    | '/_authenticated/bookings/'
     | '/_authenticated/chats/'
     | '/_authenticated/customers/'
     | '/_authenticated/delivery-statistics/'
     | '/_authenticated/drivers/'
     | '/_authenticated/finance/'
     | '/_authenticated/help-center/'
-    | '/_authenticated/hub-management/'
+    | '/_authenticated/hubs/'
     | '/_authenticated/monitoring/'
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/bookings/$bookingId/driver'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -496,11 +521,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMonitoringIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/hub-management/': {
-      id: '/_authenticated/hub-management/'
-      path: '/hub-management'
-      fullPath: '/hub-management'
-      preLoaderRoute: typeof AuthenticatedHubManagementIndexRouteImport
+    '/_authenticated/hubs/': {
+      id: '/_authenticated/hubs/'
+      path: '/hubs'
+      fullPath: '/hubs'
+      preLoaderRoute: typeof AuthenticatedHubsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/help-center/': {
@@ -545,6 +570,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/bookings/': {
+      id: '/_authenticated/bookings/'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof AuthenticatedBookingsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/apps/': {
       id: '/_authenticated/apps/'
       path: '/apps'
@@ -580,6 +612,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/bookings/$bookingId/driver': {
+      id: '/_authenticated/bookings/$bookingId/driver'
+      path: '/bookings/$bookingId/driver'
+      fullPath: '/bookings/$bookingId/driver'
+      preLoaderRoute: typeof AuthenticatedBookingsBookingIdDriverRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -610,22 +649,25 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
+  AuthenticatedBookingsIndexRoute: typeof AuthenticatedBookingsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedCustomersIndexRoute: typeof AuthenticatedCustomersIndexRoute
   AuthenticatedDeliveryStatisticsIndexRoute: typeof AuthenticatedDeliveryStatisticsIndexRoute
   AuthenticatedDriversIndexRoute: typeof AuthenticatedDriversIndexRoute
   AuthenticatedFinanceIndexRoute: typeof AuthenticatedFinanceIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
-  AuthenticatedHubManagementIndexRoute: typeof AuthenticatedHubManagementIndexRoute
+  AuthenticatedHubsIndexRoute: typeof AuthenticatedHubsIndexRoute
   AuthenticatedMonitoringIndexRoute: typeof AuthenticatedMonitoringIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedBookingsBookingIdDriverRoute: typeof AuthenticatedBookingsBookingIdDriverRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
+  AuthenticatedBookingsIndexRoute: AuthenticatedBookingsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedCustomersIndexRoute: AuthenticatedCustomersIndexRoute,
   AuthenticatedDeliveryStatisticsIndexRoute:
@@ -633,10 +675,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDriversIndexRoute: AuthenticatedDriversIndexRoute,
   AuthenticatedFinanceIndexRoute: AuthenticatedFinanceIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
-  AuthenticatedHubManagementIndexRoute: AuthenticatedHubManagementIndexRoute,
+  AuthenticatedHubsIndexRoute: AuthenticatedHubsIndexRoute,
   AuthenticatedMonitoringIndexRoute: AuthenticatedMonitoringIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedBookingsBookingIdDriverRoute:
+    AuthenticatedBookingsBookingIdDriverRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

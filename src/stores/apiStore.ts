@@ -1,6 +1,7 @@
 import Axios, { AxiosRequestConfig } from 'axios'
 import { PaginationState } from '@tanstack/react-table'
 import { create } from 'zustand'
+import { Booking } from '@/features/bookings/data/schema'
 import { Customer } from '@/features/customers/data/schema'
 import { Driver } from '@/features/drivers/data/schema'
 import { User } from '@/features/users/data/schema'
@@ -97,6 +98,26 @@ interface ApiState {
     data,
   }: AxiosRequestConfig & { id: string }) => Promise<void>
   deleteDriver: ({ id }: { id: string }) => Promise<void>
+  fetchBookings: ({
+    pagination,
+    signal,
+  }: AxiosRequestConfig & { pagination: PaginationState }) => Promise<{
+    bookings: Booking[]
+    pagination: Pagination
+  }>
+  createBooking: ({ data }: AxiosRequestConfig) => Promise<void>
+  updateBooking: ({
+    id,
+    data,
+  }: AxiosRequestConfig & { id: string }) => Promise<void>
+  deleteBooking: ({ id }: { id: string }) => Promise<void>
+  assignBooking: ({
+    bookingId,
+    driverId,
+  }: {
+    bookingId: string
+    driverId: string
+  }) => Promise<void>
 }
 
 export const useApiStore = create<ApiState>()(() => ({
@@ -112,6 +133,10 @@ export const useApiStore = create<ApiState>()(() => ({
     }
   },
   setAuthHeader: (token) => {
+    if (authInterceptor) {
+      axios.interceptors.request.eject(authInterceptor)
+    }
+
     authInterceptor = axios.interceptors.request.use(function (config) {
       config.headers.Authorization = `Bearer ${token}`
       return config
@@ -200,6 +225,34 @@ export const useApiStore = create<ApiState>()(() => ({
   },
   deleteDriver: async ({ id }) => {
     const response = await axios.delete(`/drivers/${id}`)
+    return response.data
+  },
+  fetchBookings: async ({ pagination, signal }) => {
+    const response = await axios.get('/bookings', {
+      params: {
+        pageIndex: pagination.pageIndex,
+        pageSize: pagination.pageSize,
+      },
+      signal,
+    })
+    return response.data
+  },
+  createBooking: async ({ data }) => {
+    const response = await axios.post('/bookings', data)
+    return response.data
+  },
+  updateBooking: async ({ id, data }) => {
+    const response = await axios.put(`/bookings/${id}`, data)
+    return response.data
+  },
+  deleteBooking: async ({ id }) => {
+    const response = await axios.delete(`/bookings/${id}`)
+    return response.data
+  },
+  assignBooking: async ({ bookingId, driverId }) => {
+    const response = await axios.put(`/bookings/${bookingId}/driver`, {
+      driverId,
+    })
     return response.data
   },
 }))
