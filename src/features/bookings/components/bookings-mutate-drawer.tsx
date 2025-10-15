@@ -30,12 +30,16 @@ const formSchema = z.object({
   trackingNumber: z.string().min(1, 'Tracking number is required.'),
   typeId: z.number().min(1, 'Type ID is required.'),
   orderId: z.number().min(1, 'Order ID is required.'),
-  customerId: z.number().min(1, 'Customer ID is required.'),
+  customerId: z.number().min(1, 'Customer ID is required.').nullable(),
   statusId: z.number().min(1, 'Status ID is required.'),
 })
 type BookingsForm = z.infer<typeof formSchema>
 
-export function BookingsMutateDrawer({ open, onOpenChange, currentRow }: Props) {
+export function BookingsMutateDrawer({
+  open,
+  onOpenChange,
+  currentRow,
+}: Props) {
   const isUpdate = !!currentRow
 
   const { mutateAsync: mutateAsyncCreate } = useMutation(createBookingOptions)

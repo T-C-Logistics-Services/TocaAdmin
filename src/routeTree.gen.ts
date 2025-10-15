@@ -24,6 +24,8 @@ import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedParcelPickUpIndexRouteImport } from './routes/_authenticated/parcel-pick-up/index'
+import { Route as AuthenticatedOnDemandParcelIndexRouteImport } from './routes/_authenticated/on-demand-parcel/index'
 import { Route as AuthenticatedMonitoringIndexRouteImport } from './routes/_authenticated/monitoring/index'
 import { Route as AuthenticatedHubsIndexRouteImport } from './routes/_authenticated/hubs/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
@@ -115,6 +117,18 @@ const AuthenticatedSettingsIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any)
+const AuthenticatedParcelPickUpIndexRoute =
+  AuthenticatedParcelPickUpIndexRouteImport.update({
+    id: '/parcel-pick-up/',
+    path: '/parcel-pick-up/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedOnDemandParcelIndexRoute =
+  AuthenticatedOnDemandParcelIndexRouteImport.update({
+    id: '/on-demand-parcel/',
+    path: '/on-demand-parcel/',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedMonitoringIndexRoute =
   AuthenticatedMonitoringIndexRouteImport.update({
@@ -230,6 +244,8 @@ export interface FileRoutesByFullPath {
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/hubs': typeof AuthenticatedHubsIndexRoute
   '/monitoring': typeof AuthenticatedMonitoringIndexRoute
+  '/on-demand-parcel': typeof AuthenticatedOnDemandParcelIndexRoute
+  '/parcel-pick-up': typeof AuthenticatedParcelPickUpIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
@@ -260,6 +276,8 @@ export interface FileRoutesByTo {
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/hubs': typeof AuthenticatedHubsIndexRoute
   '/monitoring': typeof AuthenticatedMonitoringIndexRoute
+  '/on-demand-parcel': typeof AuthenticatedOnDemandParcelIndexRoute
+  '/parcel-pick-up': typeof AuthenticatedParcelPickUpIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
@@ -293,6 +311,8 @@ export interface FileRoutesById {
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/hubs/': typeof AuthenticatedHubsIndexRoute
   '/_authenticated/monitoring/': typeof AuthenticatedMonitoringIndexRoute
+  '/_authenticated/on-demand-parcel/': typeof AuthenticatedOnDemandParcelIndexRoute
+  '/_authenticated/parcel-pick-up/': typeof AuthenticatedParcelPickUpIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
@@ -326,6 +346,8 @@ export interface FileRouteTypes {
     | '/help-center'
     | '/hubs'
     | '/monitoring'
+    | '/on-demand-parcel'
+    | '/parcel-pick-up'
     | '/settings/'
     | '/tasks'
     | '/users'
@@ -356,6 +378,8 @@ export interface FileRouteTypes {
     | '/help-center'
     | '/hubs'
     | '/monitoring'
+    | '/on-demand-parcel'
+    | '/parcel-pick-up'
     | '/settings'
     | '/tasks'
     | '/users'
@@ -388,6 +412,8 @@ export interface FileRouteTypes {
     | '/_authenticated/help-center/'
     | '/_authenticated/hubs/'
     | '/_authenticated/monitoring/'
+    | '/_authenticated/on-demand-parcel/'
+    | '/_authenticated/parcel-pick-up/'
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
@@ -513,6 +539,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/'
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
+    }
+    '/_authenticated/parcel-pick-up/': {
+      id: '/_authenticated/parcel-pick-up/'
+      path: '/parcel-pick-up'
+      fullPath: '/parcel-pick-up'
+      preLoaderRoute: typeof AuthenticatedParcelPickUpIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/on-demand-parcel/': {
+      id: '/_authenticated/on-demand-parcel/'
+      path: '/on-demand-parcel'
+      fullPath: '/on-demand-parcel'
+      preLoaderRoute: typeof AuthenticatedOnDemandParcelIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/monitoring/': {
       id: '/_authenticated/monitoring/'
@@ -658,6 +698,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedHubsIndexRoute: typeof AuthenticatedHubsIndexRoute
   AuthenticatedMonitoringIndexRoute: typeof AuthenticatedMonitoringIndexRoute
+  AuthenticatedOnDemandParcelIndexRoute: typeof AuthenticatedOnDemandParcelIndexRoute
+  AuthenticatedParcelPickUpIndexRoute: typeof AuthenticatedParcelPickUpIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
   AuthenticatedBookingsBookingIdDriverRoute: typeof AuthenticatedBookingsBookingIdDriverRoute
@@ -677,6 +719,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedHubsIndexRoute: AuthenticatedHubsIndexRoute,
   AuthenticatedMonitoringIndexRoute: AuthenticatedMonitoringIndexRoute,
+  AuthenticatedOnDemandParcelIndexRoute: AuthenticatedOnDemandParcelIndexRoute,
+  AuthenticatedParcelPickUpIndexRoute: AuthenticatedParcelPickUpIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
   AuthenticatedBookingsBookingIdDriverRoute:

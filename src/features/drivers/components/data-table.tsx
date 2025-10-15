@@ -28,9 +28,11 @@ import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 
 export function DataTable() {
-  const { bookingId } = useParams({
-    from: '/_authenticated/bookings/$bookingId/driver',
-  })
+  const { bookingId } =
+    useParams({
+      from: '/_authenticated/bookings/$bookingId/driver',
+      shouldThrow: false,
+    }) || {}
 
   // const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =

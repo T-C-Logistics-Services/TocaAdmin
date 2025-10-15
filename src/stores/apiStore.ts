@@ -42,9 +42,150 @@ export interface LoginResponse {
     email: string
     sub: string
     name: string
+    shopName: string
+    contactNumber: string
+    provinceId: string
+    cityMunicipalityId: string
+    barangayDistrictId: string
+    streetAddress: string
+    otherLocationDetails: string
+    isCompletedRegistration?: boolean
     avatar: string
   }
 }
+
+export interface PsgcResponse {
+  id: number
+  code: string
+  name: string
+  islandGroup: string
+}
+
+export interface CityNcrParam extends AxiosRequestConfig {
+  id: string
+}
+
+export interface VehicleResponse {
+  id: number
+  vehicle: string
+  lengthLimitCm: string
+  widthLimitCm: string
+  heightLimitCm: string
+  weightLimitKg: string
+  vehicleWithWeightLimit: string
+}
+
+export interface EstimateResponse {
+  message: string
+  distanceKm?: number
+  baseFare?: string
+  perKmRate?: string
+  totalFee: number
+}
+
+export interface PaymentMethodResponse {
+  id: number
+  method: string
+}
+
+export interface ParcelPackageResponse {
+  id: number
+  package: string
+  packageWithSize: string
+  length: string
+  width: string
+  height: string
+  maxWeightKg: string
+  uom: string
+  isCustom: boolean
+}
+
+export interface PayersResponse {
+  id: number
+  payer: string
+}
+
+export interface CreateBookingResponse {
+  message: string
+  booking: {
+    id: number
+    trackingNumber: string
+    typeId: number
+    type: string
+    packageId: number
+    senderAddressId: number
+    recipientAddressId: number
+    orderId: number
+    customerId: number | null
+    driverId: number | null
+    statusId: number
+    barcodeUrl: string
+    qrcodeUrl: string
+    createdAt: string
+    updatedAt: string
+    sender: {
+      provinceId: number
+      provinceName: string
+      cityMunicipalityId: number
+      cityMunicipalityName: string
+      barangayDistrictId: number
+      barangayDistrictName: string
+      streetAddress: string
+      otherLocationDetails: string
+      name: string
+      mobileNumber: string
+    }
+    recipient: {
+      provinceId: number
+      provinceName: string
+      cityMunicipalityId: number
+      cityMunicipalityName: string
+      barangayDistrictId: number
+      barangayDistrictName: string
+      streetAddress: string
+      otherLocationDetails: string
+      name: string
+      mobileNumber: string
+    }
+    order: {
+      number: string
+      deliveryDate: string | null
+      deliveryFee: string
+      paymentMethodId: number
+      paidById: number
+      payer: string
+      statusId: number
+      payItemOnDelivery: boolean | null
+      itemAmount: string | null
+      itemDescription: string | null
+      pickUpTime: string | null
+      totalAmount: string | null
+    }
+    package: {
+      weightKg: string | null
+      length: string | null
+      width: string | null
+      height: string | null
+      vehicleId: number | null
+      vehicle: string | null
+      packageSizeId: number | null
+      packageSize: string | null
+      packageMaxWeightKg: string | null
+      packageLength: string | null
+      packageWidth: string | null
+      packageHeight: string | null
+      packageIsCustom: boolean | null
+      packageUom: string | null
+      packageWithSize: string | null
+    }
+  }
+}
+
+export interface CashOnDeliveryIdResponse {
+  id: number
+}
+
+type QRBarcodeResponse = Blob
 
 interface ApiState {
   login: ({ data }: AxiosRequestConfig) => Promise<LoginResponse>
@@ -59,6 +200,9 @@ interface ApiState {
   fetchVehicles: ({
     signal,
   }: AxiosRequestConfig) => Promise<{ vehicles: Vehicle[] }>
+  fetchVehiclesWithDetails: ({
+    signal,
+  }: AxiosRequestConfig) => Promise<{ vehicles: VehicleResponse[] }>
   fetchUsers: ({
     pagination,
     signal,
@@ -118,6 +262,50 @@ interface ApiState {
     bookingId: string
     driverId: string
   }) => Promise<void>
+  fetchProvincesNcr: ({ signal }: AxiosRequestConfig) => Promise<PsgcResponse[]>
+  fetchCitiesNcr: ({ id, signal }: CityNcrParam) => Promise<PsgcResponse[]>
+  fetchBarangayDistrict: ({
+    id,
+    signal,
+  }: CityNcrParam) => Promise<PsgcResponse[]>
+  fetchPaymentMethods: ({ signal }: AxiosRequestConfig) => Promise<{
+    bookingPaymentMethods: PaymentMethodResponse[]
+  }>
+  fetchPayers: ({ signal }: AxiosRequestConfig) => Promise<{
+    bookingPayers: PayersResponse[]
+  }>
+  fetchParcelPackages: ({
+    signal,
+  }: AxiosRequestConfig) => Promise<ParcelPackageResponse[]>
+  fetchEstimateParcelPickUp: ({
+    signal,
+  }: AxiosRequestConfig) => Promise<EstimateResponse>
+  fetchEstimateOnDemandParcel: ({
+    signal,
+  }: AxiosRequestConfig) => Promise<EstimateResponse>
+  createParcelPickUpBooking: ({
+    data,
+  }: AxiosRequestConfig) => Promise<CreateBookingResponse>
+  createOnDemandParcelBooking: ({
+    data,
+  }: AxiosRequestConfig) => Promise<CreateBookingResponse>
+  fetchCashOnDeliveryId: ({
+    signal,
+  }: AxiosRequestConfig) => Promise<CashOnDeliveryIdResponse>
+  fetchBarcode: ({
+    waybill,
+    signal,
+  }: {
+    waybill: string
+    signal?: AbortSignal
+  }) => Promise<QRBarcodeResponse>
+  fetchQrCode: ({
+    waybill,
+    signal,
+  }: {
+    waybill: string
+    signal?: AbortSignal
+  }) => Promise<QRBarcodeResponse>
 }
 
 export const useApiStore = create<ApiState>()(() => ({
@@ -252,6 +440,74 @@ export const useApiStore = create<ApiState>()(() => ({
   assignBooking: async ({ bookingId, driverId }) => {
     const response = await axios.put(`/bookings/${bookingId}/driver`, {
       driverId,
+    })
+    return response.data
+  },
+  fetchProvincesNcr: async ({ signal }) => {
+    const response = await axios.get('/provinces-ncr', { signal })
+    return response.data
+  },
+  fetchCitiesNcr: async ({ id, signal }) => {
+    const response = await axios.get(`/cities-ncr/${id}`, { signal })
+    return response.data
+  },
+  fetchBarangayDistrict: async ({ id, signal }) => {
+    const response = await axios.get(`/barangay-district/${id}`, { signal })
+    return response.data
+  },
+  fetchPaymentMethods: async ({ signal }) => {
+    const response = await axios.get('/bookings/payment-methods', { signal })
+    return response.data
+  },
+  fetchPayers: async ({ signal }) => {
+    const response = await axios.get('/bookings/payers', { signal })
+    return response.data
+  },
+  fetchParcelPackages: async ({ signal }) => {
+    const response = await axios.get('/parcel-pickup-packages', { signal })
+    return response.data
+  },
+  fetchVehiclesWithDetails: async ({ signal }) => {
+    const response = await axios.get('/vehicles', { signal })
+    return response.data
+  },
+  fetchEstimateParcelPickUp: async ({ data, signal }) => {
+    const response = await axios.post('/estimate-parcel-pick-up', data, {
+      signal,
+    })
+    return response.data
+  },
+  fetchEstimateOnDemandParcel: async ({ data, signal }) => {
+    const response = await axios.post('/estimate-on-demand-parcel', data, {
+      signal,
+    })
+    return response.data
+  },
+  createParcelPickUpBooking: async ({ data }) => {
+    const response = await axios.post('/bookings/parcel-pick-up', data)
+    return response.data
+  },
+  createOnDemandParcelBooking: async ({ data }) => {
+    const response = await axios.post('/bookings/on-demand-parcel', data)
+    return response.data
+  },
+  fetchCashOnDeliveryId: async ({ signal }) => {
+    const response = await axios.get('/bookings/cash-on-delivery-id', {
+      signal,
+    })
+    return response.data
+  },
+  fetchBarcode: async ({ waybill, signal }) => {
+    const response = await axios.get(`/barcode/${waybill}`, {
+      signal,
+      responseType: 'blob',
+    })
+    return response.data
+  },
+  fetchQrCode: async ({ waybill, signal }) => {
+    const response = await axios.get(`/qrcode/${waybill}`, {
+      signal,
+      responseType: 'blob',
     })
     return response.data
   },
