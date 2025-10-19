@@ -56,8 +56,6 @@ export function CustomersMutateDrawer({
       firstName: currentRow ? currentRow.firstName : '',
       lastName: currentRow ? currentRow.lastName : '',
       shopName: currentRow ? currentRow.shopName : '',
-      mainAddress: currentRow ? currentRow.mainAddress : '',
-      secondaryAddress: currentRow ? currentRow.secondaryAddress : '',
       email: currentRow ? currentRow.email : '',
       password: '',
     },
